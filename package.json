@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-backend",
+  "version": "1.0.0",
+  "description": "Backend with nodejs(express)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kharmaodo/nodejs-backend.git"
+  },
+  "keywords": [
+    "node",
+    "npm",
+    "express",
+    "git",
+    "restful",
+    "database"
+  ],
+  "author": "Maodo DIOP & Bambey University\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001bfor Bambey University",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kharmaodo/nodejs-backend/issues"
+  },
+  "homepage": "https://github.com/kharmaodo/nodejs-backend#readme"
+}
