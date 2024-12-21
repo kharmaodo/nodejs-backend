@@ -30,29 +30,60 @@ const students =[
 ];
 
 
+const cours =[
+    {
+        "id":uuidv4(),
+        "cours":"Developpement Web",
+        "duration":"36h",
+    },
+    {
+        "id":uuidv4(),
+        "cours":"Machine Learning",
+        "duration":"30h",
+    },
+    {
+        "id":uuidv4(),
+        "cours":"Big Data",
+        "duration":"36h",
+    },
+    ];
 
-app.get('/',(req,res) => {
+
+app.get('/students',(req,res) => {
     res.json(students);
 });
 
-app.get('/:id',(req,res) => {
+app.get('/students/:id',(req,res) => {
 const id = req.params.id;
 const currentStudent = students.find(student=>student.id===id);
 res.json(currentStudent);
 });
 
-app.post('/',(req,res) => {
+app.post('/students',(req,res) => {
     res.send('POST en cours de mise en oeuvre');
 });
 
-app.put('/:id',(req,res) => {
+app.put('/students/:id',(req,res) => {
     const id = req.params.id;
     res.json(`PUT en cours de mise en oeuvre de la ressource ${id}`);
 });
 
-app.delete('/:id',(req,res) => {
+app.delete('/students/:id',(req,res) => {
     const id = req.params.id;
    res.json(`DELETE en cours de mise en oeuvre de la ressource ${id}`);
+});
+
+
+//Homework
+
+app.get('/cours',(req,res) => {
+    res.json(cours);
+});
+
+app.get('/cours/:id',(req,res) => {
+const id = req.params.id;
+const currentCours = cours.find(cours=>cours.id===id);
+res.json(currentCours);
 });
 
 //Lancer l'application avec un numero de port
