@@ -6,9 +6,13 @@ app.use(express.json());
 
 const studentRoutes = require('./routes/student.routes');
 const coursRoutes = require('./routes/cours.routes');
-expressOasGenerator.init(app, {});
+expressOasGenerator.handleResponses(app, {
+    tags:["Student","Cours"],
+    specGroupByTag: true
+});
 app.use('/api/students',studentRoutes);
 app.use('/api/cours',coursRoutes);
+expressOasGenerator.handleRequests();
 //Lancer l'application avec un numero de port
 let port = process.env.PORT || 3000;
 app.listen(port,() =>{
