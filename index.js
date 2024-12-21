@@ -74,29 +74,83 @@ const createdStudent = createStudent(req.body)
     })
 });
 
+function updateStudent(id,studentToBeUpdated){
+    const index = students.findIndex(student=>student.id===id);
+    if(index!==-1){
+        students[index]={...students[index],
+            ...studentToBeUpdated
+        }
+
+        return students[index];
+    }
+
+    return null ;
+}
+
+
+function deleteStudent(id,studentToBeDeleted){
+    const index = students.findIndex(student=>student.id===id);
+    if(index!==-1){
+        students.splice(index,1);
+        return  true;
+    }
+
+    return false ;
+}
+
 app.put('/students/:id',(req,res) => {
     const id = req.params.id;
-    res.json(`PUT en cours de mise en oeuvre de la ressource ${id}`);
+const studentToBeUpdated = updateStudent(id,req.body);
+if(studentToBeUpdated){
+    res.status(201).json(`Informations modifiées pour l'etudiant(e)  avec id :  ${studentToBeUpdated.id}`);
+}else {
+    res.status(404).json({
+        message: `Etudiant(e) avec id ${id} non trouvé`
+    })
+}
 });
 
 app.delete('/students/:id',(req,res) => {
     const id = req.params.id;
-   res.json(`DELETE en cours de mise en oeuvre de la ressource ${id}`);
+if(deleteStudent(id)){
+    res.status(204).send();
+}else {
+    res.status(404).json({
+        message: `Suppression impossible: Etudiant(e) avec id ${id} non trouvé`
+    })
+}
 });
 
 
-//Homework
-
+//Homework for courses
 app.get('/cours',(req,res) => {
     res.json(cours);
 });
 
+function createCours(courseToBeCreated){
+    courseToBeCreated.id = uuidv4();
+    cours.push(courseToBeCreated);
+    return courseToBeCreated ;
+}
 app.get('/cours/:id',(req,res) => {
-const id = req.params.id;
-const currentCours = cours.find(cours=>cours.id===id);
-res.json(currentCours);
+    const id = req.params.id;
+    const currentCours = cours.find(cours=>cours.id===id);
+    res.json(currentCours);
 });
 
+app.post('/cours',(req,res) => {
+        //Recuperation de la réquete émise par le client
+const createdCourse = createCours(req.body)
+res.status(201).json({
+    message: `Cours  crée avec un nouveau id :  ${createdCourse.id} `
+})
+    });
+
+app.put('/cours/:id',(req,res) => {
+});
+
+app.delete('/cours/:id',(req,res) => {
+});
 //Lancer l'application avec un numero de port
 let port = process.env.PORT || 3000;
 app.listen(port,() =>{
