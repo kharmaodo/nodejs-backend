@@ -88,6 +88,16 @@ function updateStudent(id,studentToBeUpdated){
 }
 
 
+function deleteStudent(id,studentToBeDeleted){
+    const index = students.findIndex(student=>student.id===id);
+    if(index!==-1){
+        students.splice(index,1);
+        return  true;
+    }
+
+    return false ;
+}
+
 app.put('/students/:id',(req,res) => {
     const id = req.params.id;
 const studentToBeUpdated = updateStudent(id,req.body);
@@ -102,7 +112,13 @@ if(studentToBeUpdated){
 
 app.delete('/students/:id',(req,res) => {
     const id = req.params.id;
-   res.json(`DELETE en cours de mise en oeuvre de la ressource ${id}`);
+if(deleteStudent(id)){
+    res.status(204).send();
+}else {
+    res.status(404).json({
+        message: `Suppression impossible: Etudiant(e) avec id ${id} non trouvé`
+    })
+}
 });
 
 
