@@ -28,6 +28,7 @@
   "homepage": "https://github.com/kharmaodo/nodejs-backend#readme",
   "dependencies": {
     "express": "^4.21.2",
+    "express-oas-generator": "^1.0.46",
     "nodejs-backend": "file:",
     "nodemon": "^3.1.9",
     "uuid": "^11.0.3"
