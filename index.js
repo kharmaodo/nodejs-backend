@@ -1,11 +1,12 @@
 const express = require('express');
 const {v4:uuidv4} =require('uuid');
-const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(express.json());
+
 // Fake Database
-const students =[
+const students = [
 {
     "id":uuidv4(),
     "nom":"Thiam",
@@ -59,8 +60,18 @@ const currentStudent = students.find(student=>student.id===id);
 res.json(currentStudent);
 });
 
+function createStudent(studentToBeCreated){
+    studentToBeCreated.id = uuidv4();
+    students.push(studentToBeCreated);
+    return studentToBeCreated ;
+}
+    
 app.post('/students',(req,res) => {
-    res.send('POST en cours de mise en oeuvre');
+    //Recuperation de la réquete émise par le client
+const createdStudent = createStudent(req.body)
+    res.status(201).json({
+        message: `Etudiant(e) crée(e) avec un nouveau id :  ${createdStudent.id} `
+    })
 });
 
 app.put('/students/:id',(req,res) => {
