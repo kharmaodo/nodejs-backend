@@ -20,7 +20,7 @@
     "restful",
     "database"
   ],
-  "author": "Maodo DIOP & Bambey University\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001bfor Bambey University",
+  "author": "Maodo DIOP",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kharmaodo/nodejs-backend/issues"
@@ -30,6 +30,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-oas-generator": "^1.0.46",
+    "lodash": "^4.17.21",
     "nodejs-backend": "file:",
     "nodemon": "^3.1.9",
     "sqlite3": "^5.1.7",
