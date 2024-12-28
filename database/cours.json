@@ -1,0 +1,14 @@
+[
+    {
+        "cours":"Developpement Web",
+        "duration":"36h"
+    },
+    {
+        "cours":"Machine Learning",
+        "duration":"30h"
+    },
+    {
+        "cours":"Big Data",
+        "duration":"36h"
+    }
+]
