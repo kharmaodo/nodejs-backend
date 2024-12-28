@@ -28,11 +28,11 @@ function createDatabase() {
 
 function createTables(newdb) {
     db.run(`
-   CREATE TABLE IF NOT EXISTS course (id SERIAL PRIMARY KEY, cours TEXT ,duration TEXT);
+   CREATE TABLE IF NOT EXISTS course (id INTEGER PRIMARY KEY, cours TEXT ,duration TEXT);
         `);
 
         db.run(`
-             CREATE TABLE IF NOT EXISTS students (id SERIAL PRIMARY KEY, firstName TEXT ,lastName TEXT,email  TEXT,telephone TEXT);
+             CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, firstName TEXT ,lastName TEXT,email  TEXT,telephone TEXT);
                  `);
         console.log('Creation des tables');
 }

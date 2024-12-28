@@ -49,6 +49,6 @@ const allStudents = JSON.parse(fs.readFileSync(studentFilePath, 'utf-8'));
     }
 
 }
-//insertCourse();
+insertCourse();
 
 insertStudent();
