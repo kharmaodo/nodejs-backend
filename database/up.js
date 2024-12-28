@@ -21,11 +21,15 @@ function createTableCourseIfNotExits() {
 }
 
 
-async function createTableStudentIfNotExits() {
-    const client = await pool.connect();
+ function createTableStudentIfNotExits() {
     const query = `CREATE TABLE IF NOT EXISTS students (id SERIAL PRIMARY KEY, firstName TEXT ,lastName TEXT,email  TEXT,telephone TEXT ) `;
-    await client.query(query);
-    console.log('Table students créée avec success:');
+    pool.query(query, (err, res) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log('Table students créée  avec success:');
+        }
+    });
 }
 
 async function insertCourse() {
@@ -77,5 +81,5 @@ async function insertStudent() {
 createTableCourseIfNotExits();
 //insertCourse();
 
-//createTableStudentIfNotExits();
+createTableStudentIfNotExits();
 //insertStudent();
