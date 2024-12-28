@@ -62,32 +62,6 @@ function getCourseById(id) {
 }
 
 
-/**
- * Get a single course by ID
- * @param {number} id - Course ID
- * @returns {Promise<Object|null>} Course object or null if not found
- */
-function getCourseById(id) {
-    return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM course WHERE id = ?';
-        
-        db.get(query, [id], function(err, row) {
-            if (err) {
-                console.error('Database error while fetching course:', {
-                    error: err.message,
-                    query: query,
-                    params: { id },
-                    timestamp: new Date().toISOString()
-                });
-                return reject(new Error('Failed to fetch course'));
-            }
-            
-            resolve(row || null);
-        });
-    });
-}
-
-
 module.exports = {
     getAllFromCourses: getAllFromCourses,
     getCourseById: getCourseById,
