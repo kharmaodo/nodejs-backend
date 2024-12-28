@@ -40,3 +40,5 @@ function createTables(newdb) {
 
 createDatabase();
 createTables();
+
+module.exports = db ;
