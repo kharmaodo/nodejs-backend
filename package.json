@@ -32,6 +32,7 @@
     "express-oas-generator": "^1.0.46",
     "nodejs-backend": "file:",
     "nodemon": "^3.1.9",
+    "pg": "^8.13.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3"
