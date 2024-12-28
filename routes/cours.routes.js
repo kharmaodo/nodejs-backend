@@ -1,5 +1,5 @@
 const express = require('express');
-const { createCours, getAllCours, getCoursById, updateCours, deleteCours } = require('../services/cours.service');
+const service = require('../services/cours.service');
 
 const router = express.Router();
 
@@ -20,8 +20,9 @@ const router = express.Router();
  *       200:
  *         description: Liste des cours
  */
-router.get('/', (req, res) => {
-    res.json(getAllCours());
+router.get('/', async(req, res) => {
+    const all =  await service.getAllCours() ;
+    res.json(all);
 });
 
 /**
@@ -43,9 +44,10 @@ router.get('/', (req, res) => {
  *       404:
  *         description: Cours non trouvé
  */
-router.get('/:id', (req, res) => {
+router.get('/:id', async(req, res) => {
     const id = req.params.id;
-    res.json(getCoursById(id));
+    const current = await service.getCoursById(id);
+    res.json(current);
 });
 
 /**
@@ -89,7 +91,7 @@ router.get('/:id', (req, res) => {
  */
 router.post('/', (req, res) => {
     const { id, cours, duration } = req.body; // Récupération des données nécessaires
-    const createdCourse = createCours({ id, cours, duration }); // Crée le cours avec l'ID
+    const createdCourse = service.createCours({ id, cours, duration }); // Crée le cours avec l'ID
     res.status(201).json({
         message: `Cours créé avec un nouveau ID : ${createdCourse.id}`,
         course: createdCourse
@@ -147,7 +149,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const id = req.params.id;
     const { cours, duration } = req.body; // Récupération des données à mettre à jour
-    const courseToUpdate = updateCours(id, { cours, duration }); // Met à jour le cours avec l'ID
+    const courseToUpdate = service.updateCours(id, { cours, duration }); // Met à jour le cours avec l'ID
     if (courseToUpdate) {
         res.status(200).json({
             message: `Informations mises à jour pour le cours avec id : ${courseToUpdate.id}`,
@@ -181,7 +183,7 @@ router.put('/:id', (req, res) => {
  */
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
-    if (deleteCours(id)) {
+    if (service.deleteCours(id)) {
         res.status(204).send();
     } else {
         res.status(404).json({
