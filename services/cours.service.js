@@ -13,7 +13,7 @@ function   getAllCours(){
 }
 
 function getCoursById(id){
-    return  cours.getCourseById();
+    return  cours.getCourseById(id);
 }
 
 

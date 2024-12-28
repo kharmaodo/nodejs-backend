@@ -39,11 +39,12 @@ function getCourseById(id) {
     return new Promise((resolve, reject) => {
         // Input validation
         if (!id || isNaN(id)) {
+            console.log('Invalid course ID:', id);
             return reject(new Error('Invalid course ID'));
         }
 
         console.log('Fetching course with ID:', id);
-        const query = 'SELECT * FROM course WHERE id = ?';
+        const query = 'SELECT * FROM course WHERE id=?';
     
         db.all(query, [id], function(err, row) {
             if (err) {
