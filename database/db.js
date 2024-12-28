@@ -1,26 +1,42 @@
-const { Pool } = require('pg') ; 
+const sqlite3 = require('sqlite3').verbose(); 
+const path = require('path');
+const database = path.join(__dirname, 'backend_db.db');
 
-//require('dotenv').config();
-
-const pool = new Pool({
-    host : process.env.POSTGRES_HOST || '127.0.0.1',
-    user : process.env.POSTGRES_USER  || 'postgres',
-    database : process.env.POSTGRES_DB  || 'postgres',
-    password : process.env.POSTGRES_PASSWORD  || 'uadb_secret',
-    port :  process.env.POSTGRES_PORT || 5432,
+console.log('database',database)
+let db= new sqlite3.Database(database, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+    if (err && err.code == "SQLITE_CANTOPEN") {
+        createDatabase();
+        return;
+        } else if (err) {
+            console.log("Getting error " + err);
+            exit(1);
+    }
 });
 
+function createDatabase() {
+    var newdb = new sqlite3.Database(database, (err) => {
+        if (err) {
+            console.log("Getting error " + err);
+            exit(1);
+        }
+        createTables(newdb);
+    });
 
-pool.connect((err,_,release) =>{
-if(err) {
-    return console.error('Erreur survenue au niveau du client', err.stack);
+    console.log('Creation de la BD');
 }
-console.log('Connection à la base de donnée réussie');
-release();
-});
 
 
-module.exports = {
-    pool,
-    query : (text,params) => pool.query(text,params)
+function createTables(newdb) {
+    db.run(`
+   CREATE TABLE IF NOT EXISTS course (id SERIAL PRIMARY KEY, cours TEXT ,duration TEXT);
+        `);
+
+        db.run(`
+             CREATE TABLE IF NOT EXISTS students (id SERIAL PRIMARY KEY, firstName TEXT ,lastName TEXT,email  TEXT,telephone TEXT);
+                 `);
+        console.log('Creation des tables');
 }
+
+
+createDatabase();
+createTables();
