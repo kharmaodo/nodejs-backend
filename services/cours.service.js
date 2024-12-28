@@ -1,5 +1,5 @@
 
-const  {cours } = require('../database/cours.db');
+const  cours = require('../database/cours.db');
 const {v4:uuidv4} =require('uuid');
 
 function createCours(courseToBeCreated){
@@ -8,12 +8,12 @@ function createCours(courseToBeCreated){
     return courseToBeCreated ;
 }
 
-function getAllCours(){
-    return cours ;
+function   getAllCours(){
+    return  cours.getAllFromCourses() ;
 }
 
 function getCoursById(id){
-    return  cours.find(c=>c.id===id); ;
+    return  cours.getCourseById(id);
 }
 
 
