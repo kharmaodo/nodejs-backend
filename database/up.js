@@ -24,8 +24,7 @@ const allStudents = JSON.parse(fs.readFileSync(studentFilePath, 'utf-8'));
     } catch (error) {
         console.error(error);
 
-    } finally {
-    }
+    } 
 
 }
 
@@ -34,19 +33,15 @@ const allStudents = JSON.parse(fs.readFileSync(studentFilePath, 'utf-8'));
     try {
         for (const currentStudent of allStudents) {
             const { firstName, lastName, email, telephone } = currentStudent;
-
             const query = `INSERT into students(firstName,lastName,email,telephone) VALUES  ($1,$2,$3,$4) `;
             const values = [firstName, lastName, email, telephone];
-
             db.run(query, values);
-
             console.log('Inserted:', firstName, lastName);
         }
     } catch (error) {
         console.error(error);
-
-    } finally {
-    }
+    } 
+   
 
 }
 insertCourse();

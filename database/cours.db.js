@@ -8,8 +8,8 @@ const db = require('../database/db');
 function getAllFromCourses() {
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM course';
-        
-        db.all(query, [], function(err, rows) {
+
+        db.all(query, [], function (err, rows) {
             if (err) {
                 // Log error with more context
                 console.error('Database error while fetching courses:', {
@@ -19,12 +19,12 @@ function getAllFromCourses() {
                 });
                 return reject(new Error('Failed to fetch courses'));
             }
-            
+
             // If no courses found, return empty array instead of null
             if (!rows || !rows.length) {
                 return resolve([]);
             }
-            
+
             resolve(rows);
         });
     });
@@ -45,8 +45,8 @@ function getCourseById(id) {
 
         console.log('Fetching course with ID:', id);
         const query = 'SELECT * FROM course WHERE id=?';
-    
-        db.all(query, [id], function(err, row) {
+
+        db.all(query, [id], function (err, row) {
             if (err) {
                 console.error('Database error while fetching course:', {
                     error: err.message,
