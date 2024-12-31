@@ -6,19 +6,19 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Cours
- *   description: Gestion des cours
+ *   name: Courses
+ *   description: Course management
  */
 
 /**
  * @swagger
  * /cours:
  *   get:
- *     summary: Récupérer tous les cours
- *     tags: [Cours]
+ *     summary: Retrieve all courses
+ *     tags: [Courses]
  *     responses:
  *       200:
- *         description: Liste des cours
+ *         description: List of courses
  */
 router.get('/', async(req, res) => {
     const all =  await service.getAllCours() ;
@@ -29,20 +29,20 @@ router.get('/', async(req, res) => {
  * @swagger
  * /cours/{id}:
  *   get:
- *     summary: Récupérer un cours par ID
- *     tags: [Cours]
+ *     summary: Retrieve a course by ID
+ *     tags: [Courses]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID du cours
+ *         description: Course ID
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Détails du cours
+ *         description: Course details
  *       404:
- *         description: Cours non trouvé
+ *         description: Course not found
  */
 router.get('/:id', async(req, res) => {
     const id = req.params.id;
@@ -54,8 +54,8 @@ router.get('/:id', async(req, res) => {
  * @swagger
  * /cours:
  *   post:
- *     summary: Créer un nouveau cours
- *     tags: [Cours]
+ *     summary: Create a new course
+ *     tags: [Courses]
  *     requestBody:
  *       required: true
  *       content:
@@ -65,13 +65,13 @@ router.get('/:id', async(req, res) => {
  *             properties:
  *               cours:
  *                 type: string
- *                 description: Nom du cours
+ *                 description: Course name
  *               duration:
  *                 type: string
- *                 description: Durée du cours
+ *                 description: Course duration
  *     responses:
  *       201:
- *         description: Cours créé avec succès
+ *         description: Course successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -89,12 +89,11 @@ router.get('/:id', async(req, res) => {
  *                     duration:
  *                       type: string
  */
-router.post('/', (req, res) => {
-    const { id, cours, duration } = req.body; // Récupération des données nécessaires
-    const createdCourse = service.createCours({ id, cours, duration }); // Crée le cours avec l'ID
+router.post('/', async(req, res) => {
+    const { cours, duration } = req.body; // Récupération des données nécessaires
+    const createdCourse = await service.createCours({ cours, duration });
     res.status(201).json({
-        message: `Cours créé avec un nouveau ID : ${createdCourse.id}`,
-        course: createdCourse
+        message: `Cours créé avec un nouveau ID : ${createdCourse}`
     });
 });
 
@@ -102,13 +101,13 @@ router.post('/', (req, res) => {
  * @swagger
  * /cours/{id}:
  *   put:
- *     summary: Mettre à jour un cours
- *     tags: [Cours]
+ *     summary: Update a course
+ *     tags: [Courses]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID du cours
+ *         description: Course ID
  *         schema:
  *           type: string
  *     requestBody:
@@ -120,13 +119,13 @@ router.post('/', (req, res) => {
  *             properties:
  *               cours:
  *                 type: string
- *                 description: Nom du cours
+ *                 description: Course name
  *               duration:
  *                 type: string
- *                 description: Durée du cours
+ *                 description: Course duration
  *     responses:
  *       200:
- *         description: Cours mis à jour
+ *         description: Course updated
  *         content:
  *           application/json:
  *             schema:
@@ -144,12 +143,12 @@ router.post('/', (req, res) => {
  *                     duration:
  *                       type: string
  *       404:
- *         description: Cours non trouvé
+ *         description: Course not found
  */
-router.put('/:id', (req, res) => {
+router.put('/:id', async(req, res) => {
     const id = req.params.id;
     const { cours, duration } = req.body; // Récupération des données à mettre à jour
-    const courseToUpdate = service.updateCours(id, { cours, duration }); // Met à jour le cours avec l'ID
+    const courseToUpdate = await service.updateCours(id, { cours, duration }); // Met à jour le cours avec l'ID
     if (courseToUpdate) {
         res.status(200).json({
             message: `Informations mises à jour pour le cours avec id : ${courseToUpdate.id}`,
@@ -166,28 +165,35 @@ router.put('/:id', (req, res) => {
  * @swagger
  * /cours/{id}:
  *   delete:
- *     summary: Supprimer un cours
- *     tags: [Cours]
+ *     summary: Delete a course
+ *     tags: [Courses]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID du cours
+ *         description: Course ID
  *         schema:
  *           type: string
  *     responses:
  *       204:
- *         description: Cours supprimé avec succès
+ *         description: Course successfully deleted
  *       404:
- *         description: Cours non trouvé
+ *         description: Course not found
  */
-router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    if (service.deleteCours(id)) {
-        res.status(204).send();
-    } else {
-        res.status(404).json({
-            message: `Suppression impossible: Cours avec id ${id} non trouvé`
+router.delete('/:id', async(req, res) => {
+    try {
+        const id = req.params.id;
+        if (await service.deleteCours(id)) {
+            res.status(204).send();
+        } else {
+            res.status(404).json({
+                message: `Suppression impossible: Cours avec id ${id} non trouvé`
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: 'Erreur lors de la suppression du cours',
+            error: error.message
         });
     }
 });

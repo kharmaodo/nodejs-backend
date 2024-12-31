@@ -6,19 +6,19 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Étudiants
- *   description: Gestion des étudiants
+ *   name: Students
+ *   description: Student management
  */
 
 /**
  * @swagger
  * /students:
  *   get:
- *     summary: Récupérer tous les étudiants
- *     tags: [Étudiants]
+ *     summary: Retrieve all students
+ *     tags: [Students]
  *     responses:
  *       200:
- *         description: Liste des étudiants
+ *         description: List of students
  */
 router.get('/', (req, res) => {
     res.json(getAllStudent());
@@ -28,20 +28,20 @@ router.get('/', (req, res) => {
  * @swagger
  * /students/{id}:
  *   get:
- *     summary: Récupérer un étudiant par ID
- *     tags: [Étudiants]
+ *     summary: Retrieve a student by ID
+ *     tags: [Students]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de l'étudiant
+ *         description: ID of the student
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Détails de l'étudiant
+ *         description: Student details
  *       404:
- *         description: Étudiant non trouvé
+ *         description: Student not found
  */
 router.get('/:id', (req, res) => {
     const id = req.params.id;
@@ -52,8 +52,8 @@ router.get('/:id', (req, res) => {
  * @swagger
  * /students:
  *   post:
- *     summary: Créer un nouvel étudiant
- *     tags: [Étudiants]
+ *     summary: Create a new student
+ *     tags: [Students]
  *     requestBody:
  *       required: true
  *       content:
@@ -61,21 +61,21 @@ router.get('/:id', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               nom:
+ *               name:
  *                 type: string
- *                 description: Nom de l'étudiant
- *               prenom:
+ *                 description: Student's name
+ *               firstName:
  *                 type: string
- *                 description: Prénom de l'étudiant
+ *                 description: Student's first name
  *               email:
  *                 type: string
- *                 description: Email de l'étudiant
- *               telephone:
+ *                 description: Student's email
+ *               phone:
  *                 type: string
- *                 description: Numéro de téléphone de l'étudiant
+ *                 description: Student's phone number
  *     responses:
  *       201:
- *         description: Étudiant créé avec succès
+ *         description: Student successfully created
  */
 router.post('/', (req, res) => {
     const createdStudent = createStudent(req.body);
@@ -88,13 +88,13 @@ router.post('/', (req, res) => {
  * @swagger
  * /students/{id}:
  *   put:
- *     summary: Mettre à jour un étudiant
- *     tags: [Étudiants]
+ *     summary: Update a student
+ *     tags: [Students]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de l'étudiant
+ *         description: ID of the student
  *         schema:
  *           type: string
  *     requestBody:
@@ -104,23 +104,23 @@ router.post('/', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               nom:
+ *               name:
  *                 type: string
- *                 description: Nom de l'étudiant
- *               prenom:
+ *                 description: Student's name
+ *               firstName:
  *                 type: string
- *                 description: Prénom de l'étudiant
+ *                 description: Student's first name
  *               email:
  *                 type: string
- *                 description: Email de l'étudiant
- *               telephone:
+ *                 description: Student's email
+ *               phone:
  *                 type: string
- *                 description: Numéro de téléphone de l'étudiant
+ *                 description: Student's phone number
  *     responses:
  *       200:
- *         description: Étudiant mis à jour
+ *         description: Student updated
  *       404:
- *         description: Étudiant non trouvé
+ *         description: Student not found
  */
 router.put('/:id', (req, res) => {
     const id = req.params.id;
@@ -140,20 +140,20 @@ router.put('/:id', (req, res) => {
  * @swagger
  * /students/{id}:
  *   delete:
- *     summary: Supprimer un étudiant
- *     tags: [Étudiants]
+ *     summary: Delete a student
+ *     tags: [Students]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de l'étudiant
+ *         description: ID of the student
  *         schema:
  *           type: string
  *     responses:
  *       204:
- *         description: Étudiant supprimé avec succès
+ *         description: Student successfully deleted
  *       404:
- *         description: Étudiant non trouvé
+ *         description: Student not found
  */
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
