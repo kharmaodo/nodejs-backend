@@ -9,13 +9,9 @@ function getAllStudents(){
     return student.getAllFromStudents(); ;
 }
 
-
 function getStudentById(id){
     return  student.getStudentById(id);
 }
-
-
-
 
 function patchStudent(id,studentToBeUpdated){
     return student.patchStudent(id,studentToBeUpdated) ;
