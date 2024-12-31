@@ -14,9 +14,7 @@ function getStudentById(id){
     return  student.getStudentById(id);
 }
 
-function updateStudent(id,studentToBeUpdated){
-    return student.updateStudent(id,studentToBeUpdated) ;
-}
+
 
 
 function patchStudent(id,studentToBeUpdated){
@@ -28,5 +26,5 @@ function deleteStudent(id){
 }
 
 module.exports = {
-    createStudent,getAllStudents,getStudentById, updateStudent,patchStudent,deleteStudent
+    createStudent,getAllStudents,getStudentById,patchStudent,deleteStudent
 }
