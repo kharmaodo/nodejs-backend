@@ -1,5 +1,5 @@
 const express = require('express');
-const { createStudent, getAllStudent, getStudentById, updateStudent, deleteStudent } = require('../services/student.service');
+const service = require('../services/student.service');
 
 const router = express.Router();
 
@@ -20,8 +20,9 @@ const router = express.Router();
  *       200:
  *         description: List of students
  */
-router.get('/', (req, res) => {
-    res.json(getAllStudent());
+router.get('/', async(_, res) => {
+      const all =  await service.getAllStudents() ;
+        res.json(all);
 });
 
 /**
@@ -43,9 +44,10 @@ router.get('/', (req, res) => {
  *       404:
  *         description: Student not found
  */
-router.get('/:id', (req, res) => {
+router.get('/:id', async(req, res) => {
     const id = req.params.id;
-    res.json(getStudentById(id));
+     const current = await service.getStudentById(id);
+        res.json(current);
 });
 
 /**
@@ -61,34 +63,35 @@ router.get('/:id', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               firstName:
  *                 type: string
  *                 description: Student's name
- *               firstName:
+ *               lastName:
  *                 type: string
  *                 description: Student's first name
  *               email:
  *                 type: string
  *                 description: Student's email
- *               phone:
+ *               telephone:
  *                 type: string
  *                 description: Student's phone number
  *     responses:
  *       201:
  *         description: Student successfully created
  */
-router.post('/', (req, res) => {
-    const createdStudent = createStudent(req.body);
-    res.status(201).json({
-        message: `Étudiant(e) créé(e) avec un nouveau ID : ${createdStudent.id}`
-    });
+router.post('/', async(req, res) => {
+    const {firstName, lastName, email, telephone} = req.body;
+        const createdStudent = await service.createStudent({firstName, lastName, email, telephone});
+        res.status(201).json({
+           message: `Étudiant(e) créé(e) avec un nouveau ID : ${createdStudent}`
+        });
 });
 
 /**
  * @swagger
  * /students/{id}:
- *   put:
- *     summary: Update a student
+ *   patch:
+ *     summary: Partially update a student
  *     tags: [Students]
  *     parameters:
  *       - in: path
@@ -104,16 +107,16 @@ router.post('/', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               name:
- *                 type: string
- *                 description: Student's name
  *               firstName:
  *                 type: string
  *                 description: Student's first name
+ *               lastName:
+ *                 type: string
+ *                 description: Student's last name
  *               email:
  *                 type: string
  *                 description: Student's email
- *               phone:
+ *               telephone:
  *                 type: string
  *                 description: Student's phone number
  *     responses:
@@ -122,12 +125,13 @@ router.post('/', (req, res) => {
  *       404:
  *         description: Student not found
  */
-router.put('/:id', (req, res) => {
+router.patch('/:id', async(req, res) => {
     const id = req.params.id;
-    const studentToUpdate = updateStudent(id, req.body);
+     const {firstName, lastName, email, telephone } = req.body; // Récupération des données à mettre à jour
+    const studentToUpdate = await service.patchStudent(id,{firstName, lastName, email, telephone });
     if (studentToUpdate) {
         res.status(200).json({
-            message: `Informations mises à jour pour l'étudiant avec id : ${studentToUpdate.id}`
+            message: `Informations mises à jour pour l'étudiant avec id : ${studentToUpdate}`
         });
     } else {
         res.status(404).json({
@@ -155,15 +159,22 @@ router.put('/:id', (req, res) => {
  *       404:
  *         description: Student not found
  */
-router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    if (deleteStudent(id)) {
-        res.status(204).send();
-    } else {
-        res.status(404).json({
-            message: `Suppression impossible: Étudiant avec id ${id} non trouvé`
-        });
-    }
+router.delete('/:id', async(req, res) => {
+        try {
+            const id = req.params.id;
+            if (await service.deleteStudent(id)) {
+                res.status(204).send();
+            } else {
+                res.status(404).json({
+                    message: `Suppression impossible: Cours avec id ${id} non trouvé`
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                message: 'Erreur lors de la suppression du cours',
+                error: error.message
+            });
+        }
 });
 
 module.exports = router;

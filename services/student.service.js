@@ -1,45 +1,32 @@
-const {students} = require('../database/student.db')
-const {v4:uuidv4} =require('uuid');
+const student = require('../database/student.db')
 
 function createStudent(studentToBeCreated){
-    studentToBeCreated.id = uuidv4();
-    students.push(studentToBeCreated);
-    return studentToBeCreated ;
+    return student.createStudent(studentToBeCreated) ;
 }
 
 
-function getAllStudent(){
-    return students ;
+function getAllStudents(){
+    return student.getAllFromStudents(); ;
 }
 
 
 function getStudentById(id){
-    return  students.find(student=>student.id===id); ;
+    return  student.getStudentById(id);
 }
 
 function updateStudent(id,studentToBeUpdated){
-    const index = students.findIndex(student=>student.id===id);
-    if(index!==-1){
-        students[index]={...students[index],
-            ...studentToBeUpdated
-        }
+    return student.updateStudent(id,studentToBeUpdated) ;
+}
 
-        return students[index];
-    }
 
-    return null ;
+function patchStudent(id,studentToBeUpdated){
+    return student.patchStudent(id,studentToBeUpdated) ;
 }
 
 function deleteStudent(id){
-    const index = students.findIndex(student=>student.id===id);
-    if(index!==-1){
-        students.splice(index,1);
-        return  true;
-    }
-
-    return false ;
+    return student.deleteStudent(id); ;
 }
 
 module.exports = {
-    createStudent,getAllStudent,getStudentById, updateStudent,deleteStudent
+    createStudent,getAllStudents,getStudentById, updateStudent,patchStudent,deleteStudent
 }

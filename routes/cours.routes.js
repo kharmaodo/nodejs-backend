@@ -20,7 +20,7 @@ const router = express.Router();
  *       200:
  *         description: List of courses
  */
-router.get('/', async(req, res) => {
+router.get('/', async(_, res) => {
     const all =  await service.getAllCours() ;
     res.json(all);
 });

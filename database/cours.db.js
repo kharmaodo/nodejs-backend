@@ -1,4 +1,3 @@
-// models/courseModel.js
 const db = require('../database/db');
 
 /**
