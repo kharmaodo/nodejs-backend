@@ -14,7 +14,7 @@ app.use('/api/students',studentRoutes);
 app.use('/api/cours',coursRoutes);
 expressOasGenerator.handleRequests();
 //Lancer l'application avec un numero de port
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 4000;
 app.listen(port,() =>{
     console.log(`Demarrage au port ${port}! `);
     console.log(`Swagger disponible sur http://localhost:${port}/api-docs`);
